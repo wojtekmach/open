@@ -1,7 +1,11 @@
 defmodule Open do
-  def open(html) do
+  def open_html(html) do
     path = Path.join(System.tmp_dir!(), "open_#{NaiveDateTime.utc_now()}.html")
     File.write!(path, html)
+    open_file(path)
+  end
+
+  def open_file(path) do
     browser_open(path)
   end
 
@@ -11,6 +15,7 @@ defmodule Open do
 
     if System.find_executable(start_command) do
       System.cmd(start_command, [path])
+      :ok
     else
       Mix.raise("Command not found: #{start_command}")
     end
